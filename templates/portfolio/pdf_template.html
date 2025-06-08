@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        .title { font-size: 28px; color: #004b8d; margin-bottom: 20px; }
+        .result-box {
+            border-left: 6px solid #00b4d8;
+            background: #f2faff;
+            padding: 20px;
+            font-size: 20px;
+        }
+        .prediction {
+            font-weight: bold;
+            font-size: 24px;
+            color: {% if prediction == "yes" %} red {% else %} green {% endif %};
+        }
+    </style>
+</head>
+<body>
+    <div class="title">🩺 Lung Cancer Prediction Report</div>
+    <div class="result-box">
+        <p>Prediction:</p>
+        <p class="prediction">
+            {% if prediction == "yes" %}
+                Lung Cancer Detected
+            {% else %}
+                No Lung Cancer
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>

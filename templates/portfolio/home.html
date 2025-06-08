@@ -1,0 +1,201 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="{% static "portfolio/custom.css" %}">
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{% static "portfolio/new.png" %}">
+
+  <style>
+       .card-title {
+      font-size: 2.5rem; /* Larger heading */
+    }
+    .card-text {
+      font-size: 1.3rem; /* Larger paragraph text */
+    }
+    .card {
+      margin-bottom: 10rem;
+      border: none !important; /* Remove unwanted borders */
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+    }
+
+    .navbar {
+      background-color: #fff;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .navbar-brand span {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .nav-link {
+      font-size: 18px;
+      margin-right: 15px;
+      color: #333 !important;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #0066cc !important;
+    }
+
+    .btn-primary {
+      font-size: 18px;
+      padding: 6px 16px;
+      background-color: #0066cc;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #f5a391;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+  </style>
+
+  <title>Lung Cancer</title>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="topNav" class="navbar navbar-expand-md navbar-light" style="width: 100%;">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'portfolio/new.png' %}" width="35" height="35" alt="Logo">
+        <span>Lung Cancer</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          
+          <li class="nav-item">
+            <a role="button" href="{% url 'App_Login:login' %}" class="btn btn-primary" style="padding: 12px 24px; font-size: 1.25rem;">Log In</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- PAGE CONTENT -->
+  <div class="container">
+
+    <div class="row justify-content-center my-3">
+      {% comment %} <div class="text-center">
+    <img src="{% static 'portfolio/L.jpg' %}" class="img-fluid" style="width: 1500px;" alt="Lung Image">
+
+</div> {% endcomment %}
+   <div style="width: 1920px; height: 1080px; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
+    <img src="{% static 'portfolio/A.jpg' %}" 
+         alt="Lung Image" 
+         style="width: 260%; height: 205%; object-fit: contain;">
+         <!-- Text over image -->
+    <div style="
+        position: absolute;
+        bottom: -280px;
+        left: 40%;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 42px;
+        font-weight: bold;
+        color: #000;">
+         Your Lungs, Your Life — Screen Early 
+    </div>
+</div>
+
+      </div>
+    </div>
+
+ 
+
+    <hr>
+
+<div style="border: 0px dashed #ccc; width: 300px; height: 200px; margin: 20px auto;"></div>
+
+<div class="container-fluid d-flex justify-content-center mt-5">
+  <div class="w-100" style="max-width: 75%;">
+
+    <!-- Card 1 -->
+    <div class="card shadow-sm" style="height: 350px; margin-bottom: 20rem;">
+      <div class="row g-0 h-100">
+        <div class="col-md-4">
+          <img src="{% static 'portfolio/Lung.jpg' %}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Lung Cancer">
+        </div>
+        <div class="col-md-8 d-flex align-items-center">
+          <div class="card-body text-start">
+            <h3 class="card-title fw-bold mb-3 fs-3">🔬 What is Lung Cancer?</h3>
+            <p class="card-text fs-4" style="font-size: 28px;">
+              Lung cancer is a type of cancer that begins in the lungs, often triggered by uncontrolled cell growth in lung tissues. It is typically categorized into two main types: small cell lung cancer (SCLC) and non-small cell lung cancer (NSCLC), with NSCLC being more common. The disease is often caused by long-term exposure to harmful substances such as tobacco smoke, pollutants, or radiation. In its early stages, lung cancer may not show any symptoms, making timely detection crucial. Our platform is dedicated to spreading awareness and offering preliminary digital screening using advanced machine learning techniques.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card shadow-sm" style="height: 350px; margin-bottom: 20rem;">
+      <div class="row g-0 h-100">
+        <div class="col-md-4">
+          <img src="{% static 'portfolio/2.jpg' %}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Recognizing Symptoms">
+        </div>
+        <div class="col-md-8 d-flex align-items-center">
+          <div class="card-body text-start">
+            <h3 class="card-title fw-bold mb-3 fs-3">⚠️ Recognizing the Symptoms Early</h3>
+            <p class="card-text fs-4" style="font-size: 28px;">
+              Many people with early-stage lung cancer experience little or no symptoms, which is why it often goes undetected until it reaches a more advanced stage. However, there are warning signs you should not ignore. These include a persistent cough that doesn’t go away, coughing up blood, wheezing, chest pain that worsens with deep breathing or coughing, shortness of breath, hoarseness, fatigue, and unexplained weight loss. While these symptoms can be related to other illnesses, it is always best to get them evaluated by a healthcare provider. Understanding these symptoms is the first step in taking charge of your lung health.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card shadow-sm" style="height: 350px; margin-bottom: 20rem;">
+      <div class="row g-0 h-100">
+        <div class="col-md-4">
+          <img src="{% static 'portfolio/3.jpg' %}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="AI Tool">
+        </div>
+        <div class="col-md-8 d-flex align-items-center">
+          <div class="card-body text-start">
+            <h3 class="card-title fw-bold mb-3 fs-3">🧠 Use Our AI-Powered Tool to Check Your Risk</h3>
+            <p class="card-text fs-4" style="font-size: 28px;">
+              We have developed a smart, user-friendly tool that utilizes machine learning algorithms to predict the likelihood of lung cancer based on clinical and personal input data. This system is designed to assist in early detection by analyzing factors like age, smoking history, respiratory symptoms, and other health indicators. To get started, click the button below to proceed to our prediction page. You’ll be asked to fill in a simple form, and the system will provide an instant preliminary assessment. While this tool does not replace professional medical diagnosis, it serves as a helpful guide to encourage timely consultation with a doctor.
+            </p>
+            <a href="{% url 'App_Login:login'  %}" class="btn text-white shadow-sm px-5 py-3"
+           style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 32px; border-radius: 12px;">Check Your Risk</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

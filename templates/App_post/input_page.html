@@ -1,0 +1,440 @@
+{% extends 'portfolio/navbar.html' %}
+{% comment %} 
+
+
+{% extends 'portfolio/navbar.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Breast Cancer Prediction{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="p-5 rounded shadow-lg text-center" style="background-color: #f6dbe1; max-width: 1000px; width: 100%;">
+
+    <!-- Page Title -->
+    <h1 class="mb-4" style="font-size: 38px; font-weight: bold; color: #f34d83;">
+      Breast Cancer Prediction
+    </h1>
+
+    <!-- Input Form -->
+    <form method="post" action="{% url 'App_post:results_page' %}" class="text-left">
+      {% csrf_token %}
+
+      <div class="row">
+        {% for field in form %}
+        <div class="col-md-6 mb-3">
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}" style="font-weight: 500; font-size: 16px;">{{ field.label }}</label>
+            {{ field|crispy }}
+            {% if field.errors %}
+              <small class="text-danger">{{ field.errors }}</small>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Predict Button -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-lg text-white mt-4 px-5 py-2"
+          style="background-color: #f34d83; font-size: 22px; border-radius: 8px;">
+          Predict
+        </button>
+      </div>
+    </form>
+
+    <!-- Display Prediction Result -->
+    {% if prediction %}
+    <div class="mt-5 p-4 rounded shadow-sm" style="background-color: #fff3f6; border-left: 6px solid #f34d83;">
+      <h3 class="mb-0" style="color: #f34d83; font-size: 26px;">Prediction Result:</h3>
+      <p class="mt-2" style="font-size: 22px; font-weight: bold; color: #333;">
+        {{ prediction }}
+      </p>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %} {% endcomment %}
+{% comment %} 
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 p-4 rounded" style="background-color: #e3f2ff;">
+    
+    <h1 class="text-center mb-4" style="font-size: 38px; font-weight: bold; color: #7cc1e6;">
+      Breast Cancer Prediction
+    </h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+        {% for field in form %}
+            <div class="col-md-6 mb-3">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}  <!-- This will now render radio buttons -->
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-lg text-white mt-4 px-5 py-2" style="background-color: #7cc1e6; font-size: 22px; border-radius: 8px;">
+            Predict
+        </button>
+    </div>
+</form>
+</div>
+{% endblock %} {% endcomment %}
+{% comment %} {% load static %}
+{% block content %}
+<div class="container mt-5 p-5 rounded-4 shadow-lg" style="background: linear-gradient(to right, #f0f9ff, #dbefff); max-width: 1000px; font-family: 'Segoe UI', sans-serif;">
+    
+    <h1 class="text-center mb-5" style="font-size: 45px; font-weight: 800; color: #004b8d;">
+        🔍 Lung Cancer Prediction
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            {% for field in form %}
+                {% with field.name as name %}
+                <div class="col-md-6 mb-5">
+                    <label class="form-label fw-semibold" for="{{ field.id_for_label }}" style="font-size: 20px; color: #333;">
+
+                        {% if name == "SMOKING" %} Do you smoke?
+                        {% elif name == "YELLOW_FINGERS" %} Do you have yellow fingers?
+                        {% elif name == "ANXIETY" %} Do you frequently feel anxious?
+                        {% elif name == "PEER_PRESSURE" %} Are you affected by peer pressure?
+                        {% elif name == "CHRONIC_DISEASE" %} Do you have any chronic disease?
+                        {% elif name == "FATIGUE" %} Do you often feel fatigued?
+                        {% elif name == "ALLERGY" %} Do you suffer from allergies?
+                        {% elif name == "WHEEZING" %} Do you experience wheezing?
+                        {% elif name == "ALCOHOL_CONSUMING" %} Do you consume alcohol?
+                        {% elif name == "COUGHING" %} Do you have persistent coughing?
+                        {% elif name == "SHORTNESS_OF_BREATH" %} Do you experience shortness of breath?
+                        {% elif name == "SWALLOWING_DIFFICULTY" %} Do you have difficulty swallowing?
+                        {% elif name == "CHEST_PAIN" %} Do you experience chest pain?
+                        {% else %} {{ field.label }}
+                        {% endif %}
+
+                    </label>
+
+                    {% if field.field.widget.input_type == "radio" %}
+                        <div class="d-flex flex-wrap gap-4 mt-2 ps-1">
+                            {% for subwidget in field %}
+                                <div class="form-check form-check-inline">
+                                    {{ subwidget.tag }}
+                                    <label class="form-check-label ms-2" for="{{ subwidget.id_for_label }}" style="font-size: 17px;">
+                                        {{ subwidget.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger mt-2" style="font-size: 14px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg px-5 py-3 text-white shadow-sm"
+                style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 32px; border-radius: 12px;">
+                 Predict
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Styles -->
+<style>
+    .form-control {
+        font-size: 27px;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        margin-top: 0.2rem;
+        accent-color: #00b4d8;
+    }
+    .form-check-label {
+        font-weight: 500;
+        color: #333;
+    }
+    label.form-label {
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %} {% endcomment %}
+{% comment %} {% load static %}
+{% block content %}
+<div class="container mt-5 p-5 rounded-4 shadow-lg" style="background: linear-gradient(to right, #f0f9ff, #dbefff); max-width: 900px; font-family: 'Segoe UI', sans-serif;">
+    
+    <h1 class="text-center mb-5" style="font-size: 45px; font-weight: 800; color: #004b8d;">
+        🔍 Lung Cancer Prediction
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            {% for field in form %}
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="{{ field.id_for_label }}" style="font-size: 28px; color: #333;">
+                        {% if field.name == "CHRONIC_DISEASE" %} Do you have any chronic disease?
+                        {% elif field.name == "WHEEZING" %} Do you experience wheezing?
+                        {% elif field.name == "ALCOHOL_CONSUMING" %} Do you consume alcohol?
+                        {% elif field.name == "CHEST_PAIN" %} Do you experience chest pain?
+                        {% elif field.name == "SMOKING" %} Do you smoke?
+                        {% elif field.name == "YELLOW_FINGERS" %} Do your fingers appear yellow?
+                        {% elif field.name == "COUGHING" %} Do you cough frequently?
+                        {% elif field.name == "SHORTNESS_OF_BREATH" %} Do you experience shortness of breath?
+                        
+                        {% else %} {{ field.label }}
+                        {% endif %}
+                    </label>
+
+                    {% if field.field.widget.input_type == "radio" %}
+                        <div class="d-flex flex-wrap gap-4 mt-2 ps-1">
+                            {% for subwidget in field %}
+                                <div class="form-check form-check-inline">
+                                    {{ subwidget.tag }}
+                                    <label class="form-check-label ms-2" for="{{ subwidget.id_for_label }}" style="font-size: 17px;">
+                                        {{ subwidget.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger mt-2" style="font-size: 14px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg px-5 py-3 text-white shadow-sm"
+                style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 32px; border-radius: 12px;">
+                Predict
+            </button>
+        </div>
+    </form>
+</div>
+<style>
+    .form-control {
+        font-size: 37px;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-check-input {
+        width: 24px;
+        height: 24px;
+        margin-top: 0.3rem;
+        accent-color: #00b4d8;
+        transform: scale(1.2); /* Optional: Makes the button visually larger */
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        font-weight: 600;
+        color: #333;
+        font-size: 26px; /* Increased label size for better alignment */
+        margin-left: 6px;
+    }
+
+    label.form-label {
+        margin-bottom: 8px;
+    }
+</style>
+
+{% endblock %}  {% endcomment %}
+
+
+
+{% load static %}
+{% block content %}
+<div class="container mt-5 p-5 rounded-4 shadow-lg" style="background: linear-gradient(to right, #f0f9ff, #dbefff); max-width: 1300px; font-family: 'Segoe UI', sans-serif;">
+    
+    <h1 class="text-center mb-5" style="font-size: 65px; font-weight: 800; color: #004b8d;">
+        🔍 Lung Cancer Prediction
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            {% for field in form %}
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="{{ field.id_for_label }}" style="font-size: 45px;font-weight: 500; color: #333;">
+                        {% if field.name == "CHRONIC_DISEASE" %} Do you have any chronic disease?
+                        {% elif field.name == "WHEEZING" %} Do you experience wheezing?
+                        {% elif field.name == "ALCOHOL_CONSUMING" %} Do you consume alcohol?
+                        {% elif field.name == "CHEST_PAIN" %} Do you experience chest pain?
+                        {% elif field.name == "SMOKING" %} Do you smoke?
+                        {% elif field.name == "YELLOW_FINGERS" %} Do your fingers appear yellow?
+                        {% elif field.name == "COUGHING" %} Do you cough frequently?
+                        {% elif field.name == "SHORTNESS_OF_BREATH" %} Do you experience shortness of breath?
+                        {% else %} {{ field.label }}
+                        {% endif %}
+                    </label>
+
+                    {% if field.field.widget.input_type == "radio" %}
+                        <div class="d-flex flex-wrap gap-4 mt-2 ps-1">
+                            {% for subwidget in field %}
+                                <div class="form-check form-check-inline">
+                                    {{ subwidget.tag }}
+                                    <label class="form-check-label ms-2" for="{{ subwidget.id_for_label }}" style="font-size: 45px; font-weight: 500;">
+                                        {{ subwidget.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger mt-2" style="font-size: 34px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg px-5 py-3 text-white shadow-sm"
+                style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 55px; border-radius: 12px;">
+                Predict
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-control {
+        font-size: 37px;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-check-input {
+        width: 24px;
+        height: 24px;
+        margin-top: 0.3rem;
+        accent-color: #00b4d8;
+        transform: scale(1.3);
+        cursor: pointer;
+    }
+
+    label.form-label {
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %}
+
+
+
+{% comment %} {% load static %}
+{% block content %}
+<div class="container mt-5 p-5 rounded-4 shadow-lg" style="background: linear-gradient(to right, #f0f9ff, #dbefff); max-width: 700px; font-family: 'Segoe UI', sans-serif;">
+    
+    <h1 class="text-center mb-5" style="font-size: 45px; font-weight: 800; color: #004b8d;">
+        🔍 Lung Cancer Prediction
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            {% for field in form %}
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="{{ field.id_for_label }}" style="font-size: 20px; color: #333;">
+                        {% if field.name == "chronic_disease" %} Do you have any chronic disease?
+                        {% elif field.name == "wheezing" %} Do you experience wheezing?
+                        {% elif field.name == "alcohol_consuming" %} Do you consume alcohol?
+                        {% elif field.name == "chest_pain" %} Do you experience chest pain?
+                        {% elif field.name == "smoking" %} Do you smoke?
+                        {% elif field.name == "yellow_fingers" %} Do your fingers appear yellow?
+                        {% elif field.name == "coughing" %} Do you cough frequently?
+                        {% elif field.name == "shortness_of_breath" %} Do you experience shortness of breath?
+                        {% elif field.name == "gender" %} What is your gender?
+                        {% elif field.name == "age" %} What is your age?
+                        {% else %} {{ field.label }}
+                        {% endif %}
+                    </label>
+
+                    {% if field.field.widget.input_type == "radio" %}
+                        <div class="d-flex flex-wrap gap-4 mt-2 ps-1">
+                            {% for subwidget in field %}
+                                <div class="form-check form-check-inline">
+                                    {{ subwidget.tag }}
+                                    <label class="form-check-label ms-2" for="{{ subwidget.id_for_label }}" style="font-size: 17px;">
+                                        {{ subwidget.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger mt-2" style="font-size: 14px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg px-5 py-3 text-white shadow-sm"
+                style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 32px; border-radius: 12px;">
+                Predict
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-control {
+        font-size: 27px;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        margin-top: 0.2rem;
+        accent-color: #00b4d8;
+    }
+    .form-check-label {
+        font-weight: 500;
+        color: #333;
+    }
+    label.form-label {
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %} {% endcomment %}

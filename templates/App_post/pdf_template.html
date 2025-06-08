@@ -1,0 +1,222 @@
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        .title { font-size: 28px; color: #004b8d; margin-bottom: 20px; }
+        .result-box {
+            border-left: 6px solid #00b4d8;
+            background: #f2faff;
+            padding: 20px;
+            font-size: 20px;
+        }
+        .prediction {
+            font-weight: bold;
+            font-size: 24px;
+            color: {% if prediction == "yes" %} red {% else %} green {% endif %};
+        }
+    </style>
+</head>
+<body>
+    <div class="title">🩺 Lung Cancer Prediction Report</div>
+    <div class="result-box">
+        <p>Prediction:</p>
+        <p class="prediction">
+            {% if prediction == "yes" %}
+                Lung Cancer Detected
+            {% else %}
+                No Lung Cancer
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Lung Cancer Prediction Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #0a4a8a;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eaf3fb;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .prediction-box {
+            border-left: 5px solid #009688;
+            background-color: #f1f8f9;
+            padding: 20px;
+            font-size: 18px;
+        }
+        .prediction-result {
+            color: green;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .user-info p {
+    font-size: 16px;
+    margin: 0;
+}
+
+    </style>
+</head>
+<body>
+    <h1>🩺 Lung Cancer Prediction Report</h1>
+
+    <div class="user-info">
+    <p style="font-size: 26px; margin: 0;">
+        👤 <strong>User:</strong> {{ user.get_full_name|default:user.username }}
+    </p>
+</div>
+
+<div class="section-title">🔍 Input Data</div>
+<table>
+    <tr>
+        <th>Feature</th>
+        <th>Value</th>
+    </tr>
+    {% for key, value in input_data.items %}
+    <tr>
+        <td>{{ key|pretty_label }}</td>
+        <td>
+            {% if value == 1 %}
+                Absent
+            {% elif value == 2 %}
+                Present
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<div class="prediction-box">
+        <p><strong>Prediction:</strong></p>
+        <p class="prediction-result">{{ prediction }}</p>
+    </div>
+</body>
+</html>  {% endcomment %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Lung Cancer Prediction Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #0a4a8a;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eaf3fb;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .prediction-box {
+            border-left: 5px solid #009688;
+            background-color: #f1f8f9;
+            padding: 20px;
+            font-size: 18px;
+        }
+        .prediction-result {
+            color: green;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .user-info p {
+            font-size: 16px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🩺 Lung Cancer Prediction Report</h1>
+
+    <div class="user-info">
+        <p style="font-size: 26px; margin: 0;">
+            👤 <strong>User:</strong> {{ user.get_full_name|default:user.username }}
+        </p>
+    </div>    
+
+    <div class="section-title">🔍 Input Data</div>
+<table>
+    <tr>
+        <th>Feature</th>
+        <th>Value</th>
+    </tr>
+    {% for key, value in input_data.items %}
+    <tr>
+        <td>{{ key }}</td>
+        <td>
+            {% if value|add:0 == 1 %}
+                Absent
+            {% elif value|add:0 == 2 %}
+                Present
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+    <div class="prediction-box">
+        <p><strong>Prediction:</strong></p>
+        <p class="prediction-result">{{ prediction }}</p>
+    </div>
+</body>
+</html>
+

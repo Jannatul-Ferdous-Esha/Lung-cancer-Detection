@@ -1,0 +1,287 @@
+{% extends 'portfolio/navbar.html' %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body style="background-color: pink; text-align: center;">
+    <h1 style="color: darkred;">Breast Cancer Prediction Result</h1>
+    <h2 style="color: {% if prediction == 'Malignant' %}red{% else %}green{% endif %};">
+        The predicted result is: <strong>{{ prediction }}</strong>
+    </h2>
+    <br>
+    <a href="{% url 'input_page' %}" style="padding: 10px; background: blue; color: white; text-decoration: none; border-radius: 5px;">Check Another</a>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+{% load static %}
+
+{% block title %}Prediction Result{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="p-5 rounded shadow-lg text-center" style="background-color: #f6dbe1; max-width: 850px; width: 100%;">
+
+    <!-- Title -->
+    <h1 class="mb-4" style="color: #f34d83; font-size: 45px; font-weight: bold;">
+      Breast Cancer Prediction Result
+    </h1>
+
+    <!-- Prediction Output -->
+    <div class="p-4 rounded shadow-sm" style="background-color: white; border-left: 6px solid #f34d83;">
+      <h3 class="mb-0" style="font-size: 40px; color: #f34d83;">Prediction:</h3>
+      <p class="mt-2" style="font-size: 38px; font-weight: bold; color: {% if prediction == 'Malignant' %}red{% else %}green{% endif %};">
+        {{ prediction }}
+      </p>
+    </div>
+
+    <!-- Action Button -->
+    <a href="{% url 'App_post:input_page' %}" class="btn text-white mt-4"
+       style="background-color: #f34d83; font-size: 20px; padding: 12px 30px; border-radius: 8px;">
+      Check Another
+    </a>
+
+  </div>
+</div>
+{% endblock %} {% endcomment %}
+{% comment %} {% load static %}
+
+{% block content %}
+<div class="container mt-5 p-5 rounded-4 shadow-lg text-center" style="background: linear-gradient(to right, #f0f9ff, #dbefff); max-width: 1100px; font-family: 'Segoe UI', sans-serif;">
+
+    <!-- Title -->
+    <h1 class="mb-5" style="font-size: 45px; font-weight: 800; color: #004b8d;">
+        🩺 Lung Cancer Prediction Result
+    </h1>
+
+    <!-- Prediction Output Box -->
+    <div class="p-4 rounded-4 shadow-sm mx-auto" style="background-color: white; border-left: 6px solid #00b4d8; max-width: 600px;">
+        <h3 class="mb-3" style="font-size: 35px; color: #0066cc;">Prediction:</h3>
+        <p class="mb-0" style="font-size: 38px; font-weight: bold; color: {% if prediction == 'yes' %}red{% else %}green{% endif %};">
+            {% if prediction == 'yes' %}
+                Lung Cancer Detected
+            {% else %}
+                No Lung Cancer
+            {% endif %}
+        </p>
+    </div>
+
+    {% comment %} <!-- Action Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'App_post:input_page' %}" class="btn text-white shadow-sm px-5 py-3"
+           style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">
+             Check Another
+        </a>
+        <a href="{% url 'App_post:download_pdf' prediction=prediction %}" class="btn text-white shadow-sm px-5 py-3"
+           style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">
+    Show PDF Report
+</a>
+<a href="{% url 'App_post:down_pdf' prediction=prediction %}" class="btn text-white shadow-sm px-5 py-3"
+           style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">Download PDF</a>
+
+    </div> 
+    <!-- Action Button -->
+<!-- Hidden iframe to trigger file download -->
+<!-- Hidden iframe to trigger file download -->
+<iframe id="pdfFrame" style="display: none;"></iframe>
+
+<!-- Action Buttons -->
+<div class="text-center mt-5">
+
+    <!-- Check Another -->
+    <a href="{% url 'App_post:input_page' %}" class="btn text-white shadow-sm px-5 py-3"
+       style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">
+        Check Another
+    </a>
+
+    <!-- Show PDF Report (View in Browser) -->
+    <a id="showPdfBtn" href="{% url 'App_post:download_pdf' prediction=prediction %}" target="_blank"
+       class="btn text-white shadow-sm px-5 py-3"
+       style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">
+        <span id="showPdfText">Show PDF Report</span>
+        <span id="showPdfSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+    </a>
+
+    <!-- Download PDF (File Download) -->
+    <a id="downloadBtn" href="#" class="btn text-white shadow-sm px-5 py-3"
+       style="background: linear-gradient(to right, #0066cc, #00b4d8); font-size: 29px; border-radius: 12px;">
+        <span id="downloadText">Download Report</span>
+        <span id="downloadSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+    </a>
+</div>
+
+<!-- JavaScript to Handle Spinners -->
+<script>
+    // Handle PDF Download
+    document.getElementById('downloadBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const btn = this;
+        const spinner = document.getElementById('downloadSpinner');
+        const text = document.getElementById('downloadText');
+
+        text.textContent = 'Downloading...';
+        spinner.classList.remove('d-none');
+        btn.classList.add('disabled');
+
+        document.getElementById('pdfFrame').src = "{% url 'App_post:down_pdf' prediction=prediction %}";
+
+        setTimeout(() => {
+            text.textContent = 'Download PDF';
+            spinner.classList.add('d-none');
+            btn.classList.remove('disabled');
+        }, 5000); // Adjust time if needed
+    });
+
+    // Handle Show PDF Report
+    document.getElementById('showPdfBtn').addEventListener('click', function () {
+        const btn = this;
+        const spinner = document.getElementById('showPdfSpinner');
+        const text = document.getElementById('showPdfText');
+
+        text.textContent = 'Opening...';
+        spinner.classList.remove('d-none');
+        btn.classList.add('disabled');
+
+        setTimeout(() => {
+            text.textContent = 'Show PDF Report';
+            spinner.classList.add('d-none');
+            btn.classList.remove('disabled');
+        }, 3000); // Slightly shorter delay since it's opening, not downloading
+    });
+</script>
+
+
+
+
+</div>
+
+<style>
+    .btn:focus, .btn:active {
+        box-shadow: none !important;
+    }
+</style>
+{% endblock %} {% endcomment %}
+{% load static %}
+
+{% block content %}
+<!-- Full-screen Centering Container -->
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Outer Blue Box -->
+    <div class="p-5 rounded-4 shadow-lg text-center" style="background: linear-gradient(to right, #f0f9ff, #dbefff); width: 90%; max-width: 1300px; font-family: 'Segoe UI', sans-serif;">
+
+        <!-- Title -->
+        <h1 class="mb-5" style="font-size: 50px; font-weight: 800; color: #004b8d;">
+            🩺 Lung Cancer Prediction Result
+        </h1>
+
+        <!-- Inner White Box -->
+        <div class="p-5 rounded-4 shadow-sm mx-auto" style="background-color: white; border-left: 8px solid #00b4d8; max-width: 750px;">
+            <h3 class="mb-3" style="font-size: 40px; color: #0066cc;">Prediction:</h3>
+            <p class="mb-0" style="font-size: 42px; font-weight: bold; color: {% if prediction == 'yes' %}red{% else %}green{% endif %};">
+                {% if prediction == 'yes' %}
+                    Lung Cancer Detected
+                {% else %}
+                    No Lung Cancer
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Buttons -->
+        <!-- Buttons -->
+<div class="d-flex justify-content-center align-items-center mt-5 flex-wrap" style="gap: 20px;">
+    <!-- Check Another -->
+    <a href="{% url 'App_post:input_page' %}" class="result-btn">
+        Check Another
+    </a>
+
+    <!-- Show PDF Report -->
+    <a id="showPdfBtn" href="{% url 'App_post:download_pdf' prediction=prediction %}" target="_blank" class="result-btn">
+        <span id="showPdfText">Show PDF Report</span>
+        <span id="showPdfSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+    </a>
+
+    <!-- Download Report -->
+    <a id="downloadBtn" href="#" class="result-btn">
+        <span id="downloadText">Download Report</span>
+        <span id="downloadSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+    </a>
+</div>
+
+
+    </div>
+</div>
+
+<!-- JavaScript for Buttons -->
+<script>
+    document.getElementById('downloadBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        const btn = this;
+        const spinner = document.getElementById('downloadSpinner');
+        const text = document.getElementById('downloadText');
+        text.textContent = 'Downloading...';
+        spinner.classList.remove('d-none');
+        btn.classList.add('disabled');
+        document.getElementById('pdfFrame').src = "{% url 'App_post:down_pdf' prediction=prediction %}";
+        setTimeout(() => {
+            text.textContent = 'Download Report';
+            spinner.classList.add('d-none');
+            btn.classList.remove('disabled');
+        }, 5000);
+    });
+
+    document.getElementById('showPdfBtn').addEventListener('click', function () {
+        const btn = this;
+        const spinner = document.getElementById('showPdfSpinner');
+        const text = document.getElementById('showPdfText');
+        text.textContent = 'Opening...';
+        spinner.classList.remove('d-none');
+        btn.classList.add('disabled');
+        setTimeout(() => {
+            text.textContent = 'Show PDF Report';
+            spinner.classList.add('d-none');
+            btn.classList.remove('disabled');
+        }, 3000);
+    });
+</script>
+
+<!-- Styles -->
+<style>
+    .btn:focus, .btn:active {
+        box-shadow: none !important;
+    }
+
+    .result-btn {
+        flex: 1 1 280px;
+        max-width: 280px;
+        text-align: center;
+        background: linear-gradient(to right, #0066cc, #00b4d8);
+        font-size: 20px;
+        font-weight: 500;
+        color: white !important;
+        border-radius: 12px;
+        padding: 15px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .result-btn:hover {
+        background: linear-gradient(to right, #005bb5, #009ecf);
+    }
+
+    @media (max-width: 768px) {
+        .result-btn {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
